@@ -311,6 +311,9 @@ function createPostHTML(post) {
                     <span>${post.comments || 0}</span>
                 </button>
             </div>
+            <div class="post-comments-section" id="comments-${post.id}" style="display: none; margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--border-color);">
+                <p style="color: var(--text-muted); font-size: 0.9rem; text-align: center;">Comments coming soon! 💬</p>
+            </div>
         </article>
     `;
 }
@@ -386,6 +389,22 @@ function attachLikeListeners(container) {
                 // If we are in profile, liking updates our total likes stat slightly
                 if (post.author === 'WIV Builder') {
                     updateProfileStats();
+                }
+            }
+        });
+    });
+    
+    // Attach Comment Listeners
+    const commentBtns = container.querySelectorAll('.comment-btn');
+    commentBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const postId = btn.getAttribute('data-id');
+            const commentSection = document.getElementById(`comments-${postId}`);
+            if (commentSection) {
+                if (commentSection.style.display === 'none') {
+                    commentSection.style.display = 'block';
+                } else {
+                    commentSection.style.display = 'none';
                 }
             }
         });
