@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VibeFeed</title>
+    <!-- Modern Sans-serif Font: Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="app-header">
+            <h1 class="logo" style="cursor: pointer;" onclick="document.querySelector('.nav-item[data-target=\'view-feed\']').click()">Vibe<span>Feed</span></h1>
+            <div class="header-actions" style="display: flex; gap: 12px; align-items: center;">
+                <button class="icon-btn guestbook-top-btn" data-target="view-guestbook" aria-label="Guestbook" style="font-size: 1.35rem; display: flex; align-items: center;">
+                    <i class="fa-solid fa-book-open"></i>
+                </button>
+                <button class="icon-btn theme-toggle-btn" aria-label="Toggle Dark Mode" style="font-size: 1.5rem; display: flex; align-items: center;">
+                    <i class="fa-regular fa-moon"></i>
+                </button>
+                <button class="icon-btn write-top-btn" data-target="view-write" aria-label="Write Post">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main id="main-content">
+            <!-- Feed View -->
+            <section id="view-feed" class="view active">
+                <div class="category-filters">
+                    <button class="filter-tag active" data-tag="All">All</button>
+                    <button class="filter-tag" data-tag="#TodayILearned">#TodayILearned</button>
+                    <button class="filter-tag" data-tag="#ProjectProgress">#ProjectProgress</button>
+                    <button class="filter-tag" data-tag="#NeedAdvice">#NeedAdvice</button>
+                    <button class="filter-tag" data-tag="#General">#General</button>
+                </div>
+                <!-- Scrollable Container for Posts -->
+                <div id="feed-container" class="feed-container">
+                    <!-- Cards will be injected here via app.js -->
+                </div>
+            </section>
+
+            <!-- Write View (Create Post) -->
+            <section id="view-write" class="view hidden">
+                <div class="write-header">
+                    <h2>New Post</h2>
+                    <button class="icon-btn close-write-btn" aria-label="Close Write Form">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <form id="write-form" class="write-form">
+                    <div class="form-group">
+                        <label for="post-title">Title</label>
+                        <input type="text" id="post-title" placeholder="Give your post a catchy title..." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="post-image">Image URL (Optional)</label>
+                        <input type="url" id="post-image" placeholder="https://example.com/image.jpg">
+                        <div class="image-preview" id="image-preview">
+                            <i class="fa-regular fa-image"></i>
+                            <span>Preview will appear here</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="post-content">What's on your mind?</label>
+                        <textarea id="post-content" rows="4" maxlength="300" placeholder="Share your project updates or ask for advice... (Max 300 chars)" required></textarea>
+                        <div class="char-counter"><span id="char-count">300</span> characters remaining</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Category</label>
+                        <div class="radio-group" id="post-category">
+                            <label class="radio-label">
+                                <input type="radio" name="category" value="#TodayILearned" required>
+                                <span>#TodayILearned</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="category" value="#ProjectProgress">
+                                <span>#ProjectProgress</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="category" value="#NeedAdvice">
+                                <span>#NeedAdvice</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="category" value="#General">
+                                <span>#General</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Post</button>
+                </form>
+            </section>
+
+            <!-- Guestbook View -->
+            <section id="view-guestbook" class="view hidden">
+                <div class="write-header" style="justify-content: space-between; align-items: center; display: flex;">
+                    <h2>Guestbook</h2>
+                    <button class="icon-btn close-gb-btn" aria-label="Close Guestbook">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div style="padding: 0 24px;">
+                    <p style="color: var(--text-muted); margin-bottom: 24px; font-weight: 500;">Leave a memo for the community! 📝</p>
+                </div>
+                <form id="gb-form" class="write-form" style="padding-bottom: 24px;">
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <input type="text" id="gb-name" placeholder="Name" required maxlength="30">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 24px;">
+                        <textarea id="gb-message" rows="3" placeholder="Write a quick message..." required maxlength="200"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary" style="padding: 14px; font-size: 1.05rem;">Sign Guestbook</button>
+                </form>
+                <h3 class="section-title" style="padding-top: 0; padding-bottom: 12px; border-top: 1px solid var(--border-color); margin-top: -10px;">Recent Memos</h3>
+                <div id="gb-list" class="feed-container" style="padding-top: 12px;">
+                    <!-- Memos injected here -->
+                </div>
+            </section>
+
+            <!-- Profile View -->
+            <section id="view-profile" class="view hidden">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <img src="https://ui-avatars.com/api/?name=WIV+Builder&background=FF6B6B&color=fff&size=128" alt="Profile Avatar">
+                    </div>
+                    <div class="profile-info">
+                        <h2>WIV Builder</h2>
+                        <p>@wiv_builder</p>
+                        <p class="profile-bio">Passionate frontend developer and WIV buildathon participant! Working on my dream app. 💻✨</p>
+                    </div>
+                </div>
+                <div class="profile-stats">
+                    <div class="stat">
+                        <span class="stat-value" id="profile-posts-count">0</span>
+                        <span class="stat-label">Posts</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" id="profile-likes-count">0</span>
+                        <span class="stat-label">Likes Total</span>
+                    </div>
+                </div>
+                <h3 class="section-title">My Posts</h3>
+                <div id="profile-feed-container" class="feed-container">
+                    <!-- User's cards will be injected here via app.js -->
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-target="view-feed">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </button>
+            <button class="nav-item write-btn-nav" data-target="view-write">
+                <div class="fab-inner">
+                    <i class="fa-solid fa-plus"></i>
+                </div>
+                <span>Write</span>
+            </button>
+            <button class="nav-item" data-target="view-profile">
+                <i class="fa-regular fa-user"></i>
+                <span>My Profile</span>
+            </button>
+        </nav>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
